@@ -52,12 +52,29 @@ function PayoutJobRates(player, jobType, groupCount)
     end
 
     if Config.PayoutSnowballs then
-        if not QBCore.Functions.HasItem(player.PlayerData.source, 'weapon_snowball') then
-            if player.Functions.AddItem('weapon_snowball') then
-                TriggerClientEvent('inventory:client:ItemBox', player.PlayerData.source, QBCore.Shared.Items['weapon_snowball'], 'add')
+        -- Latest qb-core/qb-inventory pattern is to check the player's inventory object.
+        -- Fallback to QBCore.Functions.HasItem if present on the server.
+        local hasSnowball = false
+        if player.Functions and player.Functions.GetItemByName then
+            hasSnowball = player.Functions.GetItemByName('weapon_snowball') ~= nil
+        elseif QBCore.Functions and QBCore.Functions.HasItem then
+            hasSnowball = QBCore.Functions.HasItem(player.PlayerData.source, 'weapon_snowball')
+        end
+
+        if not hasSnowball then
+            local added = false
+            if player.Functions and player.Functions.AddItem then
+                added = player.Functions.AddItem('weapon_snowball', 1)
+            end
+            if added then
+                if QBCore.Shared and QBCore.Shared.Items and QBCore.Shared.Items['weapon_snowball'] then
+                    TriggerClientEvent('inventory:client:ItemBox', player.PlayerData.source, QBCore.Shared.Items['weapon_snowball'], 'add')
+                end
             end
         end
     end
 
-    player.Functions.AddMoney('cash', payout)
+    if player.Functions and player.Functions.AddMoney then
+        player.Functions.AddMoney('cash', payout, 'snowplow-job')
+    end
 end
