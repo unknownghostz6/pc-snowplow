@@ -54,3 +54,4 @@ function GetMarkerProportions(jobSize, jobProgress)
 
     return { x = x, y = y, resetProgress = resetProgress }
 end
+
