@@ -26,19 +26,22 @@ Config = {
     ReturnRange = 5, -- The radius that a player must be in to return a plow
     SmallPlows = { -- Allowed vehicles for small jobs
         -- There aren't many base game vehicles for this, may require imports
+        'snowatv'
     },
     MediumPlows = { -- Allowed vehicles for medium jobs
         -- There aren't many base game vehicles for this, may require imports
+        'dottruck1'
     },
     LargePlows = { -- Allowed vehicles for large jobs
         -- There aren't many base game vehicles for this, may require imports
+        'snowplow'
     },
     SmallPlowClear = 1, -- Amount of clearing done by a small job
     MediumPlowClear = 3, -- Amount of clearing done by a medium job
     LargePlowClear = 5, -- Amount of clearing done by a large job
     SmallPayout = 500, -- Amount of money for a small job's group
     MediumPayout = 1000, -- Amount of money for a medium job's group
-    LargePayout = 2500, -- Amount of money for a large job's group
+    LargePayout = 1500, -- Amount of money for a large job's group
     PayoutSnowballs = true, -- Whether or not to grant snowballs on job completion
     PayoutRange = 100, -- Amount payout differs for each group
     PlowLocationsSmall = { -- Plowing spots for small vehicles
@@ -485,4 +488,92 @@ Config = {
             },
         },
     }
+}
+
+
+-- =========================================================
+-- Immersion (added): nicer job notifications + named destinations
+-- (Does NOT change job logic; only affects messages)
+-- =========================================================
+Config.Immersion = Config.Immersion or {}
+Config.Immersion.LocationNames = {
+    "Vanilla Unicorn",
+    "Legion Square",
+    "Pillbox Hill Medical",
+    "Los Santos Customs",
+    "Ammu-Nation",
+    "Diamond Casino",
+    "Vespucci Beach",
+    "Mirror Park",
+    "Del Perro Pier",
+    "Maze Bank Arena",
+    "La Mesa Industrial",
+    "Davis Mega Mall",
+    "Rancho Projects",
+    "Richman Hotel",
+    "LSIA Terminal",
+}
+
+Config.Immersion.Notify = {
+    enabled = true,
+    start = true,
+    checkpoint = true,
+    finish = true,
+    cadenceCheckpoint = 3, -- notify every N cleared groups (low spam)
+}
+
+-- =========================================================
+-- Salt + plow visuals (added): synced, immersive only
+-- Note: this does NOT change route logic or payouts.
+-- =========================================================
+Config.Salt = Config.Salt or {}
+Config.Salt.Enabled = true
+
+-- Auto toggles salt based on emergency lights / beacons (Q on most vehicles)
+Config.Salt.FollowEmergencyLights = true
+
+-- Optional manual toggle (still available if you want)
+Config.Salt.CommandEnabled = true
+Config.Salt.Command = "salt"
+
+-- Server sync frequency (ms). Keep modest for performance.
+Config.Salt.SyncEveryMs = 1200
+
+-- Vehicle salt capacities (lbs) by model spawn name (lowercase)
+Config.Salt.CapacityLbs = {
+    snowatv = 150,
+    dottruck1 = 600,
+    snowplow = 1400,
+}
+
+-- Salt consumption rate (lbs/sec) by model spawn name
+Config.Salt.ConsumeRate = {
+    snowatv = 1.0,
+    dottruck1 = 2.5,
+    snowplow = 4.0,
+}
+
+Config.Salt.MinSpeedMph = 6.0
+
+-- Simple visual “salt spread” particle behind vehicle
+Config.Salt.Visuals = {
+    enabled = true,
+    particleAsset = "core",
+    particleName = "exp_grd_dust",
+    spawnEveryMs = 180,
+    behindDistance = 3.2,
+    downOffset = 0.6,
+    size = 0.7,
+}
+
+-- Optional light “plow spray” effect near the blade/front
+Config.PlowSpray = {
+    enabled = true,
+    particleAsset = "core",
+    particleName = "ent_sht_steam",
+    spawnEveryMs = 260,
+    sideOffset = 1.3,
+    forwardOffset = 1.2,
+    downOffset = 0.6,
+    size = 0.6,
 }
