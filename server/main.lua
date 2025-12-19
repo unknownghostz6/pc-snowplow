@@ -89,11 +89,31 @@ RegisterNetEvent('pc-snowplow:server:FinishJob', function(jobType, groupCount)
     local earners = GetPlayersInVehicle(veh)
 
     for _,v in ipairs(earners) do
-        if v.PlayerData.job.name == 'snowplow' then
+        if v.PlayerData.job.name == Config.JobName then
             PayoutJobRates(v, jobType, groupCount)
             UpdatePlowLevel(jobType, groupCount)
         elseif v.PlayerData.source == src then
             DropPlayer(src, 'pc-snowplow:server:FinishJob exploit attempt')
         end
+    end
+end)
+
+
+-- =========================================================
+-- Salt visual sync (added; immersion only)
+-- =========================================================
+local SaltState = {} -- [src] = { enabled=bool, lbs=int, cap=int }
+
+RegisterNetEvent('pc-snowplow:server:SaltUpdate', function(enabled, lbs, cap)
+    local src = source
+    SaltState[src] = { enabled = enabled == true, lbs = tonumber(lbs) or 0, cap = tonumber(cap) or 0 }
+    TriggerClientEvent('pc-snowplow:client:SaltSync', -1, src, SaltState[src])
+end)
+
+AddEventHandler('playerDropped', function()
+    local src = source
+    if SaltState[src] then
+        SaltState[src] = nil
+        TriggerClientEvent('pc-snowplow:client:SaltSync', -1, src, nil)
     end
 end)
