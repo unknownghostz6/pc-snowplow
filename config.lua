@@ -30,7 +30,7 @@ Config = {
     },
     MediumPlows = { -- Allowed vehicles for medium jobs
         -- There aren't many base game vehicles for this, may require imports
-        'dottruck1'
+        '18f350plow'
     },
     LargePlows = { -- Allowed vehicles for large jobs
         -- There aren't many base game vehicles for this, may require imports
