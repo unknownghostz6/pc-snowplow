@@ -64,6 +64,10 @@ Restart `qb-core` or the server after adding the job.
 
 ## Vehicle setup (IMPORTANT)
 
+Plows used are from the pack located in this link: 
+
+https://www.gta5-mods.com/vehicles/plow-pack-non-els-5m-sp
+
 Your plow vehicles should be added to:
 
 ```
