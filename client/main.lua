@@ -255,18 +255,12 @@ RegisterNetEvent('pc-snowplow:client:TakeJob', function(data)
             local plate = "PLWG"..tostring(math.random(1000, 9999))
             SetVehicleNumberPlateText(veh, plate)
 
+            -- EXTRAS FOR VEHICLES --
             -- Enable all extras by default for specific plow vehicles
             local _model = string.lower(vehicle or '')
-            if _model == 'snowplow' or _model == 'snowatv' then
+            if _model == 'snowplow' or _model == 'snowatv' or _model == '18f350plow' then
                 EnableAllVehicleExtras(veh)
             end
-
-            -- Enable all extras
-            --[[for i = 0, 20 do
-            if DoesExtraExist(veh, i) then
-            SetVehicleExtra(veh, i, false)
-            end
-            end]]
 
             -- Fix overlapping side plow on snowplow
             local model = string.lower(GetDisplayNameFromVehicleModel(GetEntityModel(veh)) or "")
